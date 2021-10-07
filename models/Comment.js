@@ -27,27 +27,28 @@ const ReplySchema = new Schema(
     }
 );
 
-const CommentSchema = new Schema({
-    writtenBy: {
-        type: String
+const CommentSchema = new Schema(
+    {
+        writtenBy: {
+            type: String
+        },
+        commentBody: {
+            type: String
+        },
+        createdAt: {
+            type: Date,
+            default: Date.now,
+            get: createdAtVal => dateFormat(createdAtVal)
+        },
+        replies: [ReplySchema]
     },
-    commentBody: {
-        type: String
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-        get: createdAtVal => dateFormat(createdAtVal)
-    },
-    replies: [ReplySchema]
-},
-{
-    toJSON: {
-        virtuals: true,
-        getters: true
-    },
-    id: false
-}
+    {
+        toJSON: {
+            virtuals: true,
+            getters: true
+        },
+        id: false
+    }
 );
 
 // get total count of comments and replies on retrieval
